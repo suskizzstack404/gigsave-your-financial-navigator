@@ -1,0 +1,455 @@
+@import "tailwindcss";
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * GigSave design system — black & lime FinTech, matching the landing page.
+ * Chrome (nav, primary CTAs, dashboard hero surfaces) is black; the lime accent
+ * is used for highlights, active states and focus rings. Jar/expense category
+ * colours keep their own violet/purple/pink/sky/amber/teal palette (--brand-*)
+ * since those encode user data, not app chrome.
+ * All colors are oklch semantic tokens. Never hardcode colors in components.
+ */
+
+@theme inline {
+  --font-sans: "Poppins", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 6px);
+  --radius-lg: calc(var(--radius) - 4px);
+  --radius-xl: calc(var(--radius) - 2px);
+  --radius-2xl: var(--radius);
+  --radius-3xl: calc(var(--radius) + 6px);
+  --radius-4xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  --color-violet: var(--brand-violet);
+  --color-purple: var(--brand-purple);
+  --color-pink: var(--brand-pink);
+  --color-sky: var(--brand-sky);
+  --color-amber: var(--brand-amber);
+  --color-teal: var(--brand-teal);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+
+  --shadow-soft: var(--shadow-soft-value);
+  --shadow-card: var(--shadow-card-value);
+  --shadow-glow: var(--shadow-glow-value);
+  --shadow-float: var(--shadow-float-value);
+
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.4s ease-out both;
+  --animate-scale-in: scale-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-pulse-ring: pulse-ring 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-slow: float 8s ease-in-out infinite;
+  --animate-slide-down: slide-down 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-orb-pulse: orb-pulse 4s ease-in-out infinite;
+  --animate-orb-spin: orb-spin 16s linear infinite;
+  --animate-bounce-dot: bounce-dot 1.2s ease-in-out infinite;
+  --animate-ping-ring: ping-ring 1.6s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+:root {
+  --radius: 1.25rem;
+
+  /* Canvas & surfaces — matches the landing page's off-white paper + black/lime chrome */
+  --background: oklch(0.967 0.003 95);
+  --foreground: oklch(0.19 0.004 285);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.19 0.004 285);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.19 0.004 285);
+
+  /* Brand — kept for data-coded elements (jar colours, expense categories, charts) */
+  --brand-violet: oklch(0.585 0.208 285);
+  --brand-purple: oklch(0.601 0.221 302);
+  --brand-pink: oklch(0.685 0.199 358);
+  --brand-sky: oklch(0.745 0.128 233);
+  --brand-amber: oklch(0.79 0.144 78);
+  --brand-teal: oklch(0.73 0.122 183);
+
+  /* Lime palette (Tailwind v4 defaults, inlined so tokens don't depend on utility generation) */
+  --lime-100: oklch(0.967 0.067 122.328);
+  --lime-300: oklch(0.897 0.196 126.665);
+  --lime-400: oklch(0.841 0.238 128.85);
+  --lime-500: oklch(0.768 0.233 130.85);
+  --lime-600: oklch(0.648 0.2 131.684);
+  --lime-800: oklch(0.453 0.124 130.933);
+
+  /* Chart palette — GigSave green shades + neutral gray, used by analytics
+     charts instead of the violet/pink/sky/amber brand-tone palette (which
+     stays reserved for jar/category tagging elsewhere). */
+  --chart-income: var(--lime-600);
+  --chart-savings: var(--lime-400);
+  --chart-expense: oklch(0.55 0.01 260);
+  --chart-neutral: oklch(0.72 0.006 100);
+
+  /* Primary = the app's lime accent. A mid-tone shade is used for text/icons/ring so it
+     stays legible on white; solid lime fills (badges, the CTA pill) use --lime-400 directly
+     with dark text, matching the landing page. */
+  --primary: var(--lime-600);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-soft: var(--lime-100);
+
+  --secondary: oklch(0.965 0.002 106);
+  --secondary-foreground: oklch(0.22 0.004 285);
+
+  --muted: oklch(0.965 0.003 106);
+  --muted-foreground: oklch(0.5 0.006 260);
+
+  --accent: var(--lime-100);
+  --accent-foreground: var(--lime-800);
+
+  --destructive: oklch(0.638 0.216 12);
+  --destructive-foreground: oklch(0.995 0 0);
+  --success: oklch(0.717 0.166 155);
+  --success-foreground: oklch(0.995 0 0);
+  --warning: oklch(0.79 0.144 78);
+  --warning-foreground: oklch(0.24 0.015 275);
+
+  --border: oklch(0.93 0.002 100);
+  --input: oklch(0.93 0.002 100);
+  --ring: var(--lime-500);
+
+  --chart-1: oklch(0.585 0.208 285);
+  --chart-2: oklch(0.685 0.199 358);
+  --chart-3: oklch(0.745 0.128 233);
+  --chart-4: oklch(0.79 0.144 78);
+  --chart-5: oklch(0.717 0.166 155);
+  --chart-6: oklch(0.73 0.122 183);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, oklch(0.16 0 0), oklch(0.29 0 0));
+  --gradient-secondary: linear-gradient(135deg, oklch(0.745 0.128 233), oklch(0.585 0.208 292));
+  --gradient-success: linear-gradient(135deg, oklch(0.717 0.166 155), oklch(0.73 0.122 183));
+  --gradient-warm: linear-gradient(135deg, oklch(0.79 0.144 78), oklch(0.685 0.199 358));
+  --gradient-canvas:
+    radial-gradient(1200px 600px at 12% -10%, oklch(0.841 0.238 128.85 / 0.1), transparent 60%),
+    radial-gradient(900px 520px at 105% 0%, oklch(0.19 0.004 285 / 0.04), transparent 62%);
+
+  /* Elevation */
+  --shadow-soft-value: 0 2px 10px -4px oklch(0.19 0.004 285 / 0.08);
+  --shadow-card-value: 0 18px 46px -26px oklch(0.19 0.004 285 / 0.22);
+  --shadow-glow-value: 0 16px 42px -14px color-mix(in oklab, var(--lime-500) 45%, transparent);
+  --shadow-float-value: 0 14px 34px -10px color-mix(in oklab, var(--lime-500) 50%, transparent);
+}
+
+.dark {
+  --background: oklch(0.17 0.004 285);
+  --foreground: oklch(0.96 0.004 100);
+  --card: oklch(0.22 0.004 285);
+  --card-foreground: oklch(0.96 0.004 100);
+  --popover: oklch(0.22 0.004 285);
+  --popover-foreground: oklch(0.96 0.004 100);
+
+  --primary: var(--lime-400);
+  --primary-foreground: oklch(0.16 0 0);
+  --primary-soft: oklch(0.3 0.05 128);
+
+  --secondary: oklch(0.288 0.006 285);
+  --secondary-foreground: oklch(0.96 0.004 100);
+  --muted: oklch(0.288 0.006 285);
+  --muted-foreground: oklch(0.72 0.006 100);
+  --accent: oklch(0.3 0.04 128);
+  --accent-foreground: var(--lime-400);
+
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: var(--lime-400);
+
+  --gradient-primary: linear-gradient(135deg, oklch(0.28 0.004 285), oklch(0.36 0.004 285));
+  --shadow-card-value: 0 18px 46px -26px oklch(0 0 0 / 0.7);
+  --shadow-soft-value: 0 2px 10px -4px oklch(0 0 0 / 0.5);
+  --shadow-glow-value: 0 16px 42px -14px color-mix(in oklab, var(--lime-400) 40%, transparent);
+  --gradient-canvas:
+    radial-gradient(1100px 560px at 10% -10%, oklch(0.5 0.18 128 / 0.14), transparent 60%),
+    radial-gradient(900px 520px at 105% 0%, oklch(0.3 0.01 285 / 0.3), transparent 62%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-background);
+    background-image: var(--gradient-canvas);
+    background-attachment: fixed;
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "ss01";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ---------- Utilities ---------- */
+
+@utility gradient-primary {
+  background-image: var(--gradient-primary);
+}
+
+@utility gradient-secondary {
+  background-image: var(--gradient-secondary);
+}
+
+@utility gradient-success {
+  background-image: var(--gradient-success);
+}
+
+@utility gradient-warm {
+  background-image: var(--gradient-warm);
+}
+
+@utility text-gradient-primary {
+  background-image: var(--gradient-primary);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility glass-panel {
+  background-color: color-mix(in oklab, var(--card) 72%, transparent);
+  backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+}
+
+@utility surface-card {
+  background-color: color-mix(in oklab, var(--card) 98%, transparent);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-3xl);
+  box-shadow: var(--shadow-card-value);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility tap-scale {
+  transition:
+    transform 160ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 160ms ease;
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--float-rotate, 0deg));
+  }
+  50% {
+    transform: translateY(-8px) rotate(var(--float-rotate, 0deg));
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes orb-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+@keyframes orb-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce-dot {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@keyframes ping-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@utility card-hover {
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-value);
+  }
+}
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
